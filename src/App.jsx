@@ -94,10 +94,10 @@ function recordSteps(root, rootIsMax) {
         nodeAlpha.set(n.id, a); nodeBeta.set(n.id, b);
         snap(`★ Nový nejlepší [${n.id}]: větev #${i + 1} → ${fv(best)}  (α=${fv(a)}, β=${fv(b)})`, "best");
       }
-      if (a >= b) {
+      if (a > b) {
         for (let j = i + 1; j < n.children.length; j++) { edgeStatus.set(`${n.id}:${j}`, "pruned"); pruneSub(n.children[j]); }
         nodeAlpha.set(n.id, a); nodeBeta.set(n.id, b);
-        snap(`✂ OŘEZ [${n.id}]  α=${fv(a)} ≥ β=${fv(b)} → přeskakuji ${n.children.length - i - 1} větví`, "prune");
+        snap(`✂ OŘEZ [${n.id}]  α=${fv(a)} > β=${fv(b)} → přeskakuji ${n.children.length - i - 1} větví`, "prune");
         break;
       }
     }
@@ -343,6 +343,7 @@ export default function App() {
   const [playing, setPlaying]       = useState(false);
   const [speed, setSpeed]           = useState(650);
   const [showBulk, setShowBulk]     = useState(false);
+  const [showHelp, setShowHelp]     = useState(false);
   const timer = useRef(null);
 
   const layout = useMemo(() => computeLayout(tree), [tree]);
